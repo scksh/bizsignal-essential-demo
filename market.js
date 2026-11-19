@@ -474,8 +474,6 @@
     .biz-market .mk-history td:first-child{grid-column:1/-1;padding-bottom:6px;border-bottom:1px solid var(--line)}
     .biz-market .mk-history td:first-child a{font-size:14px}.biz-market .mk-history td small{font-size:11px}
     .biz-market .mk-history td[data-label]::before{content:attr(data-label);display:block;color:#587261;font-size:11px}
-    .biz-market .mk-history td:last-child{grid-column:1/-1}
-    .biz-market .mk-history td:last-child small{display:inline;margin-left:4px}
   }
   `;
   function option(value, text, selected) {
@@ -519,10 +517,10 @@
   }
   function history(rows, page) {
     const size = 10, start=(page-1)*size;
-    const table = rows.slice(start,start+size).map(c=>`<tr><td>${link(c.url,c.title)}<small>${esc(c.org)} · ${c.signed}</small><small>확정계약번호 ${esc(c.id)}</small></td><td data-label="조달분류">${esc(c.field)}</td><td data-label="계약업체">${esc(c.supplier)}</td><td data-label="배정예산" class="mk-number">${c.budget == null ? "미확인" : won(c.budget)}</td><td data-label="총계약금액" class="mk-number">${won(c.amount)}${c.amount===0 ? '<small>원천 총액 0원<br>금차 '+won(c.termAmount)+'</small>' : ''}</td><td data-label="공고 연결">${c.notice ? link(c.notice.url,"공고번호 일치")+'<small>'+esc(c.noticeNo)+'-'+esc(c.notice.order)+'</small>' : '공고 미연결'}</td></tr>`).join("");
+    const table = rows.slice(start,start+size).map(c=>`<tr><td>${link(c.url,c.title)}<small>${esc(c.org)} · ${c.signed}</small><small>확정계약번호 ${esc(c.id)}</small></td><td data-label="조달분류">${esc(c.field)}</td><td data-label="계약업체">${esc(c.supplier)}</td><td data-label="배정예산" class="mk-number">${c.budget == null ? "미확인" : won(c.budget)}</td><td data-label="총계약금액" class="mk-number">${won(c.amount)}${c.amount===0 ? '<small>원천 총액 0원<br>금차 '+won(c.termAmount)+'</small>' : ''}</td></tr>`).join("");
     const pages=Math.ceil(rows.length/size);
     const pager=pages>1?`<nav class="pagination" aria-label="계약 이력 페이지"><span>${start+1}–${Math.min(start+size,rows.length)} / ${rows.length}건</span><div><button data-mk-page="${page-1}" ${page===1?"disabled":""}>이전</button><strong>${page} / ${pages}</strong><button data-mk-page="${page+1}" ${page===pages?"disabled":""}>다음</button></div></nav>`:"";
-    return `<section class="mk-card mk-history"><div class="mk-row-head"><h2>과거 사업과 계약 이력</h2><span class="mk-tag">${rows.length}건</span></div><p class="mk-note">사업명을 선택하면 나라장터 계약 상세를 엽니다.</p><div class="mk-scroll" role="region" aria-label="계약 이력 표 가로 스크롤" tabindex="0"><table><thead><tr><th scope="col">사업명 / 수요기관</th><th scope="col">조달분류</th><th scope="col">계약업체</th><th scope="col" class="mk-number">배정예산</th><th scope="col" class="mk-number">총계약금액</th><th scope="col">공고 연결</th></tr></thead><tbody>${table}</tbody></table></div>${pager}${rows.length ? '' : '<p class="mk-note">선택한 조건의 계약 표본이 없습니다.</p>'}</section>`;
+    return `<section class="mk-card mk-history"><div class="mk-row-head"><h2>과거 사업과 계약 이력</h2><span class="mk-tag">${rows.length}건</span></div><p class="mk-note">사업명을 선택하면 나라장터 계약 상세를 엽니다.</p><div class="mk-scroll" role="region" aria-label="계약 이력 표 가로 스크롤" tabindex="0"><table><thead><tr><th scope="col">사업명 / 수요기관</th><th scope="col">조달분류</th><th scope="col">계약업체</th><th scope="col" class="mk-number">배정예산</th><th scope="col" class="mk-number">총계약금액</th></tr></thead><tbody>${table}</tbody></table></div>${pager}${rows.length ? '' : '<p class="mk-note">선택한 조건의 계약 표본이 없습니다.</p>'}</section>`;
   }
   function render(target) {
     const host = typeof target === "string" ? document.querySelector(target) : target;
