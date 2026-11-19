@@ -1,0 +1,50 @@
+﻿필요한 컬럼,컬럼 설명,원본 컬럼,오퍼레이션명,변환 로직(SQL),생성 방법
+notice.notice_key,표시 차수의 공고 식별자,"bidNtceNo, bidNtceOrd",getBidPblancListInfoServc02 (N),N.bidNtceNo || '-' || N.bidNtceOrd,공고번호와 문자열 차수를 하이픈으로 결합. 선행 0 보존.
+notice.title,공고명,bidNtceNm,getBidPblancListInfoServc02 (N),TRIM(N.bidNtceNm),해당 차수 공고명의 앞뒤 공백 정리.
+notice.buyer,수요기관명,dminsttNm,getBidPblancListInfoServc02 (N),N.dminsttNm,수요기관 표시명.
+notice.publisher,공고를 게시한 기관명,ntceInsttNm,getBidPblancListInfoServc02 (N),N.ntceInsttNm,공고기관 표시명. 수요기관과 역할 분리.
+notice.field,탐색·비교용 과업 분야,"pubPrcrmntClsfcNm, bidNtceNm",getBidPblancListInfoServc02 (N),:확인한_과업분야,원천 분류·공고명을 참고해 화면용 분야로 분류. 분류명과 공고명에서 검토한 분야 표시값을 사용한다.
+notice.category_code,원천 조달분류번호,pubPrcrmntClsfcNo,getBidPblancListInfoServc02 (N),N.pubPrcrmntClsfcNo,원천 조달분류번호. 미제공은 미상.
+notice.region,입찰 참가 가능 지역,"bidNtceNo, bidNtceOrd, prtcptPsblRgnNm","getBidPblancListInfoServc02 (N), getBidPblancListInfoPrtcptPsblRgn02 (R)","COALESCE(NULLIF(R.prtcptPsblRgnNm, ''), '지역 미확인')",같은 공고번호·차수의 참가 지역. 근거 없는 지역은 미확인. 공고번호·차수가 모두 일치하는 지역을 LEFT JOIN한다.
+notice.first_posted,최초 공고차수의 게시시각,"bidNtceNo, bidNtceOrd, bidNtceDt",getBidPblancListInfoServc02 (N),"STRFTIME('%Y-%m-%dT%H:%M:%S', NULLIF(N0.bidNtceDt, '')) || '+09:00'",확보한 최초 공고차수의 게시 시각. 최초 차수를 확보하지 못하면 미확인. N0은 같은 공고의 최초 차수다.
+notice.posted,표시 차수의 공고 게시시각,bidNtceDt,getBidPblancListInfoServc02 (N),"STRFTIME('%Y-%m-%dT%H:%M:%S', NULLIF(N.bidNtceDt, '')) || '+09:00'",표시 차수의 게시 시각을 KST로 해석.
+notice.deadline,입찰서 제출 마감시각,bidClseDt,getBidPblancListInfoServc02 (N),"STRFTIME('%Y-%m-%dT%H:%M:%S', NULLIF(N.bidClseDt, '')) || '+09:00'",입찰 마감 시각. 자격등록·제안서 접수 기한과 분리.
+notice.budget_won,공고 배정예산(원),asignBdgtAmt,getBidPblancListInfoServc02 (N),"CAST(NULLIF(N.asignBdgtAmt, '') AS INTEGER)",배정예산을 원 단위 수치로 저장. 공란과 실제 0원 구분.
+notice.contract_method,계약체결방식,cntrctCnclsMthdNm,getBidPblancListInfoServc02 (N),N.cntrctCnclsMthdNm,계약체결방식 원문 명칭.
+notice.award_method,낙찰자 결정방식,sucsfbidMthdNm,getBidPblancListInfoServc02 (N),N.sucsfbidMthdNm,낙찰자 결정방식 원문 명칭.
+notice.kind,공고종류,ntceKindNm,getBidPblancListInfoServc02 (N),N.ntceKindNm,등록·변경·재공고 등 표본의 공고종류.
+notice.source_url,공식 공고 상세 주소,bidNtceDtlUrl,getBidPblancListInfoServc02 (N),N.bidNtceDtlUrl,공식 공고 상세 URL.
+notice.plan_no,일치가 확인된 발주계획통합번호,orderPlanUntyNo,"getBidPblancListInfoServc02 (N), getOrderPlanSttusListServc (P)",CASE WHEN N.orderPlanUntyNo = P.orderPlanUntyNo THEN P.orderPlanUntyNo END,확보한 발주계획통합번호와 일치하는 연결만 채택. 미확인은 NULL.
+evidence.notice_key,근거가 속한 공고 판본키,"bidNtceNo, bidNtceOrd",getBidPblancListInfoServc02 (N),N.bidNtceNo || '-' || N.bidNtceOrd,해당 공고판본의 근거만 연결.
+evidence.kind,근거의 유형,"bidQlfctRgstDt, bidClseDt, atchFileNm, atchFileUrl, 원문 본문","getBidPblancListInfoServc02 (N), getBidPblancListInfoAtchFileInfo02 (A), downloadFile.do (D)",:근거유형,"과업, 조건·평가, 기한, 문서, 문서 구절, 추가 확인 등 추출 유형. 일정·첨부·본문과 검토 기록을 펼칠 때 행 유형을 부여한다."
+evidence.label,근거 항목의 제목,"bidQlfctRgstDt, bidClseDt, atchFileNm, 원문 조항명","getBidPblancListInfoServc02 (N), getBidPblancListInfoAtchFileInfo02 (A), downloadFile.do (D)",:근거표제,"담당자가 식별할 항목 제목. 일정 필드명, 첨부 표시명, 검토한 과업·조항명을 해당 행의 표제로 사용한다."
+evidence.text,근거 문장 또는 기한,"bidQlfctRgstDt, bidClseDt, 원문 조항·기한","getBidPblancListInfoServc02 (N), downloadFile.do (D)",CASE WHEN :근거유형 <> '문서' THEN :확인한_문장_또는_기한 END,검토한 과업·조건 문장 또는 기한. 링크만 있는 문서는 본문을 비워 둠. 기한은 한국 시각 또는 원문의 상대기한 문구로 표시한다.
+evidence.locator,근거를 찾을 페이지·장절·문단,원문 페이지·장·절·문단,downloadFile.do (D),"COALESCE(:확인한_문서위치, '')",PDF 쪽 또는 원문 장·절·문단. 별도 위치 없는 구조화 필드는 공란.
+evidence.source_url,근거 항목의 공식 출처 주소,"atchFileUrl, bidNtceDtlUrl, 원문 페이지 위치","getBidPblancListInfoServc02 (N), getBidPblancListInfoAtchFileInfo02 (A), downloadFile.do (D)","COALESCE(:검토한_첨부주소, N.bidNtceDtlUrl)","문서 근거는 첨부 원문, 구조화 값은 공고 상세로 역추적. 장소를 확인한 PDF 구절에는 #page=쪽번호가 붙을 수 있다."
+change.previous_key,변경 전 공고 판본키,"bidNtceNo, bidNtceOrd",getBidPblancListInfoServc02 (N),Nprev.bidNtceNo || '-' || Nprev.bidNtceOrd,같은 공고의 변경 전 판본키. Nprev는 같은 공고번호의 비교 직전 차수다.
+change.current_key,변경 후 공고 판본키,"bidNtceNo, bidNtceOrd",getBidPblancListInfoServc02 (N),Nnext.bidNtceNo || '-' || Nnext.bidNtceOrd,같은 공고의 변경 후 판본키. Nnext는 Nprev와 인접한 다음 차수다.
+change.field,달라진 필드의 표시명,"bidNtceNm, bidQlfctRgstDt, bidClseDt",getBidPblancListInfoServc02 (N),:필드명,비교 대상 필드의 화면 명칭. 같은 공고의 인접 차수에서 공고명·입찰 마감·자격등록 마감을 필드별로 비교한다.
+change.before,변경 전 표시값,"bidNtceNm, bidQlfctRgstDt, bidClseDt",getBidPblancListInfoServc02 (N),"CASE :필드명 WHEN '공고명' THEN Nprev.bidNtceNm WHEN '입찰 마감' THEN SUBSTR(Nprev.bidClseDt,1,16) WHEN '자격등록 마감' THEN SUBSTR(Nprev.bidQlfctRgstDt,1,16) END",이전 차수의 해당 필드값. Nprev는 직전 차수다. 값이 달라진 필드만 남긴다.
+change.after,변경 후 표시값,"bidNtceNm, bidQlfctRgstDt, bidClseDt",getBidPblancListInfoServc02 (N),"CASE :필드명 WHEN '공고명' THEN Nnext.bidNtceNm WHEN '입찰 마감' THEN SUBSTR(Nnext.bidClseDt,1,16) WHEN '자격등록 마감' THEN SUBSTR(Nnext.bidQlfctRgstDt,1,16) END",다음 차수의 같은 필드값. 값이 달라진 경우만 한 행. Nnext는 다음 차수다.
+change.revision_posted,변경 차수의 게시시각,bidNtceDt,getBidPblancListInfoServc02 (N),"STRFTIME('%Y-%m-%dT%H:%M:%S', NULLIF(Nnext.bidNtceDt, '')) || '+09:00'",정정차수 게시시각. Nnext는 다음 차수다.
+change.previous_url,이전 차수의 공고 상세 주소,bidNtceDtlUrl,getBidPblancListInfoServc02 (N),Nprev.bidNtceDtlUrl,최초·이전 공고 확인 링크. Nprev는 직전 차수다.
+change.source_url,변경 근거가 있는 원문 또는 공고 주소,"atchFileUrl, bidNtceDtlUrl, 정정 원문 페이지","getBidPblancListInfoServc02 (N), getBidPblancListInfoAtchFileInfo02 (A), downloadFile.do (D)","COALESCE(:정정문서_근거주소, Nnext.bidNtceDtlUrl)",정정공고서 해당 쪽 또는 변경 후 공식 상세. Nnext는 다음 차수다. 정정문서 해당 쪽의 주소를 우선한다.
+plan.plan_no,발주계획통합번호,orderPlanUntyNo,getOrderPlanSttusListServc (P),P.orderPlanUntyNo,발주계획통합번호. 공고번호와 별도 관리. nticeDt를 2026-11-17 09:00 KST 기준으로 먼저 제한한다.
+plan.title,발주 예정 사업명,bizNm,getOrderPlanSttusListServc (P),TRIM(P.bizNm),발주 예정 사업명. 앞뒤 공백을 제거한다.
+plan.buyer,발주계획의 발주기관명,orderInsttNm,getOrderPlanSttusListServc (P),P.orderInsttNm,발주계획의 발주기관.
+plan.planned_month,발주 예정 연월,"orderYear, orderMnth",getOrderPlanSttusListServc (P),"P.orderYear || '-' || PRINTF('%02d', CAST(P.orderMnth AS INTEGER))",연·월을 YYYY-MM으로 조합.
+plan.planned_won,합계 발주예정금액(원),sumOrderAmt,getOrderPlanSttusListServc (P),"CAST(NULLIF(P.sumOrderAmt, '') AS INTEGER)","합계 발주예정금액, 원 단위."
+plan.source_url,공식 발주계획 상세 주소,orderPlanDtlUrl,getOrderPlanSttusListServc (P),P.orderPlanDtlUrl,발주계획 상세 URL.
+contract.contract_no,확정계약번호,dcsnCntrctNo,getCntrctInfoListServcPPSSrch (C),C.dcsnCntrctNo,같은 내용의 중복 응답을 제거한 확정계약번호. 검색 후보 중 범위·변경차수·중복을 검토한 계약을 사용한다.
+contract.title,계약명,cntrctNm,getCntrctInfoListServcPPSSrch (C),TRIM(C.cntrctNm),계약명. 앞뒤 공백을 제거한다.
+contract.buyer,계약의 수요기관 표시명,dminsttList,getCntrctInfoListServcPPSSrch (C),:수요기관_표시명,기관 목록에서 표시할 수요기관명을 추출. 원천 기관 목록 항목에서 수요기관 이름을 읽는다.
+contract.supplier,계약상대방 표시명,corpList,getCntrctInfoListServcPPSSrch (C),:계약업체_표시명,업체 목록에서 계약업체 표시명을 추출. 연락처와 사업자번호는 배포에서 제외. 원천 업체 목록에서 계약업체 이름을 읽는다.
+contract.procurement_category,원천 조달분류명,pubPrcrmntClsfcNm,getCntrctInfoListServcPPSSrch (C),C.pubPrcrmntClsfcNm,계약의 원천 조달분류명.
+contract.signed,계약체결일,cntrctCnclsDate,getCntrctInfoListServcPPSSrch (C),DATE(C.cntrctCnclsDate),계약체결일을 기준으로 월·연도 필터 계산.
+contract.total_won,총계약금액(원),totCntrctAmt,getCntrctInfoListServcPPSSrch (C),"CAST(NULLIF(C.totCntrctAmt, '') AS INTEGER)",총계약금액. 금액 비교는 확인된 양수 총액만 사용.
+contract.term_won,금차계약금액(원),thtmCntrctAmt,getCntrctInfoListServcPPSSrch (C),"CAST(NULLIF(C.thtmCntrctAmt, '') AS INTEGER)",금차계약금액을 별도 보존. 총액 대체에 사용하지 않음.
+contract.contract_url,공식 계약 상세 주소,cntrctDtlInfoUrl,getCntrctInfoListServcPPSSrch (C),C.cntrctDtlInfoUrl,공식 계약 상세 URL.
+contract.notice_no,계약 응답의 원공고번호,ntceNo,getCntrctInfoListServcPPSSrch (C),"NULLIF(C.ntceNo, '')",원 계약에서 제공한 공고번호. 미제공은 NULL.
+contract.verified_notice_key,공식 확인을 마친 원공고 판본키,"ntceNo, cntrctNm, bidNtceNo, bidNtceOrd, bidNtceNm","getCntrctInfoListServcPPSSrch (C), getBidPblancListInfoServc02 (N)",CASE WHEN C.ntceNo = N.bidNtceNo AND :판본검증완료 THEN N.bidNtceNo || '-' || N.bidNtceOrd END,공식 번호·판본과 공고명 대조를 완료한 연결만 확정. 원공고 후보의 공고번호·차수와 사업명 대조 결과를 사용한다.
+contract.notice_budget_won,검증된 원공고의 배정예산(원),"ntceNo, bidNtceNo, bidNtceOrd, asignBdgtAmt","getCntrctInfoListServcPPSSrch (C), getBidPblancListInfoServc02 (N)","CASE WHEN :판본검증완료 THEN CAST(NULLIF(N.asignBdgtAmt, '') AS INTEGER) END",연결된 공고 배정예산. 미확인 시 NULL. 검증된 원공고 행에 연결한 경우에만 채운다.
+contract.notice_url,검증된 원공고 상세 주소,"ntceNo, bidNtceNo, bidNtceOrd, bidNtceDtlUrl","getCntrctInfoListServcPPSSrch (C), getBidPblancListInfoServc02 (N)",CASE WHEN :판본검증완료 THEN N.bidNtceDtlUrl END,연결된 공고의 공식 상세. 미확인 시 NULL. 검증된 원공고 행에 연결한 경우에만 채운다.

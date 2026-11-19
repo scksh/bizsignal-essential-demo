@@ -1,0 +1,8 @@
+﻿소스 ID,소스명,오퍼레이션명,사용 컬럼(오퍼레이션 안의 아이템명),사용 컬럼 수
+DS-001,조달청_나라장터 입찰공고정보서비스,getBidPblancListInfoServc02,"bidNtceNo, bidNtceOrd, bidNtceNm, ntceInsttNm, dminsttNm, pubPrcrmntClsfcNo, pubPrcrmntClsfcNm, asignBdgtAmt, bidNtceDt, bidQlfctRgstDt, bidClseDt, ntceKindNm, cntrctCnclsMthdNm, sucsfbidMthdNm, bidNtceDtlUrl, orderPlanUntyNo",16
+DS-001,조달청_나라장터 입찰공고정보서비스,getBidPblancListInfoPrtcptPsblRgn02,"bidNtceNo, bidNtceOrd, prtcptPsblRgnNm",3
+DS-001,조달청_나라장터 입찰공고정보서비스,getBidPblancListInfoAtchFileInfo02,"bidNtceNo, bidNtceOrd, atchFileNm, atchFileUrl",4
+DS-003,조달청_나라장터 계약정보서비스,getCntrctInfoListServcPPSSrch,"dcsnCntrctNo, cntrctNm, pubPrcrmntClsfcNm, dminsttList, corpList, cntrctCnclsDate, totCntrctAmt, thtmCntrctAmt, cntrctDtlInfoUrl, ntceNo",10
+DS-008,공고 첨부 원문,downloadFile.do,파일 입력(PDF·HWP·HWPX 본문). 첨부 목록의 atchFileUrl로 다운로드하고 파일별 SHA-256을 검증한다. 구조화 컬럼 수에서 제외.,0
+DS-010,조달청_나라장터 발주계획현황서비스,getOrderPlanSttusListServc,"orderPlanUntyNo, bizNm, orderInsttNm, orderYear, orderMnth, sumOrderAmt, nticeDt, orderPlanDtlUrl",8
+합계,전체 원천 4종,5개 조회 + 1개 파일 입력,오퍼레이션별 구조화 필드의 합계. 공고 조회는 공고 목록·계약 원공고 역조회에서 사용한 필드를 합집합으로 센다.,41

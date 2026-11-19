@@ -1,0 +1,97 @@
+/* base.css is the original BizSignal workspace theme. These rules style the
+   reduced demo's additional fields and layouts using the same design tokens. */
+:root { --ink: #203744; --wash: #f3f8f5; }
+[hidden] { display: none !important; }
+#app { min-width: 0; }
+.sidebar { overflow-y: auto; }
+.profile-prompt p { overflow-wrap: anywhere; line-height: 1.6; }
+.sidebar-foot { margin-top: 18px; }
+.quick-metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.quick-metrics .metric-value { margin-bottom: 0; }
+.filter-row { flex-wrap: wrap; }
+.filter-row .check-label + .check-label { margin-left: 0; }
+.notice-labels { flex-wrap: wrap; }
+.notice-card .notice-org > span { display: inline-flex; align-items: center; gap: 4px; margin-right: 6px; color: inherit; }
+.notice-bottom b { color: #55717f; font-weight: 550; }
+.results-tabs { flex-wrap: wrap; }
+.source-link, .plan-connections button { color: var(--teal); text-decoration: underline; text-underline-offset: 3px; }
+.source-link:hover, .plan-connections button:hover { color: #076954; }
+.plan-row { display: grid; grid-template-columns: 82px minmax(0, 1fr) auto; align-items: center; gap: 16px; padding: 22px 25px; border-bottom: 1px solid var(--line); }
+.plan-row:last-child { border: 0; }
+.plan-row h2 { font-size: 14px; line-height: 1.6; margin: 0 0 6px; }
+.plan-row span, .plan-row small, .plan-row a { font-size: 11px; color: #768b97; }
+.plan-month { padding: 9px 11px; background: #eef7f2; border-radius: 7px; color: #39856f; }
+.plan-month > *, .plan-funding > * { display: block; }
+.plan-month strong, .plan-funding strong { font-size: 13px; margin: 3px 0; }
+.plan-funding { text-align: right; }
+.plan-connections button { padding: 4px 0 0; font-size: 11px; }
+.plan-connections .icon, .detail-plan .icon, .doc-list .icon { width: 14px; height: 14px; }
+.empty-brief { padding: 28px; text-align: center; color: #718592; font-size: 13px; }
+div.empty-brief { display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap; }
+.pagination, .pagination > div { display: flex; align-items: center; gap: 10px; }
+.pagination { justify-content: space-between; margin-top: 12px; color: #6c808d; font-size: 12px; }
+.pagination:empty { display: none; }
+.pagination button { border: 1px solid var(--line); padding: 7px 12px; border-radius: 6px; background: white; }
+.pagination button:enabled:hover { border-color: #9dcbb3; color: var(--teal); }
+
+.detail-dialog { width: min(900px, calc(100vw - 32px)); }
+.dialog-inner { padding: 24px 28px; }
+.dialog-inner .dialog-header { padding: 0 0 12px; margin-bottom: 15px; }
+.dialog-inner > h2 { font-size: 23px; line-height: 1.5; letter-spacing: -.8px; }
+.info-row { color: #768b97; font-size: 12px; margin: 5px 0; }
+.detail-actions { align-items: center; flex-wrap: wrap; margin: 14px 0; }
+.detail-actions .button { margin-left: auto; }
+.detail-actions .source-link, .detail-plan { font-size: 12px; }
+.dialog-inner .detail-facts { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); background: #f7faf9; border: 1px solid #e5efea; border-radius: 8px; padding: 14px; gap: 16px; }
+.dialog-inner .detail-facts span, .dialog-inner .detail-facts strong { display: block; }
+.dialog-inner .detail-facts span { color: #718692; font-size: 11px; }
+.dialog-inner .detail-facts strong { margin-top: 4px; font-size: 13px; line-height: 1.5; }
+.detail-plan { padding-top: 12px; }
+.detail-fit { margin: 16px 0; padding: 14px; background: #eef7f2; border: 1px solid #dcece3; border-radius: 8px; font-size: 12px; line-height: 1.65; }
+.detail-fit strong { color: var(--teal); margin-right: 9px; }
+.detail-fit summary { cursor: pointer; margin-top: 4px; }
+.detail-columns { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 15px; }
+.section-box { padding: 18px; margin-bottom: 12px; }
+.section-box h2, .section-box h3 { margin: 0 0 10px; color: var(--navy); }
+.section-box h2 { font-size: 17px; }
+.section-box h3 { font-size: 14px; }
+.section-box p, .section-box li, .section-box summary { font-size: 13px; line-height: 1.7; }
+.section-box .source-link { font-size: 11px; }
+.evidence-row { border-top: 1px solid var(--line); padding: 9px 0; }
+.evidence-row summary { font-weight: 600; cursor: pointer; }
+.evidence-row small { font-size: 11px; font-weight: 400; color: #718692; }
+.schedule-list, .doc-list { list-style: none; padding: 0; margin: 0; }
+.schedule-list li { border-left: 2px solid #c4e0d4; padding: 0 0 12px 10px; }
+.schedule-list strong, .schedule-list span { display: block; }
+.doc-list li { display: flex; align-items: baseline; gap: 6px; margin: 6px 0; overflow-wrap: anywhere; }
+.settings-dialog form { display: grid; gap: 16px; }
+.settings-dialog h2 { font-size: 18px; }
+.settings-dialog .form-field { display: grid; gap: 6px; font-weight: 600; font-size: 12px; }
+.settings-dialog .form-field input, .settings-dialog .form-field select { width: 100%; }
+.settings-dialog .profile-categories { margin: 0; }
+.watch-list { display: grid; gap: 12px; }
+#change-list { margin-top: 20px; }
+#change-list .results-toolbar { align-items: center; margin: 0; flex-wrap: wrap; }
+#change-list h2 { margin: 0; }
+.mini-tabs { display: flex; gap: 6px; margin: 16px 0; }
+.mini-tabs [aria-pressed="true"] { color: var(--teal); border-color: #a9cabc; background: #eef7f2; }
+.alert-card { margin-top: 12px; }
+@media (max-width: 1000px) {
+  .detail-columns { grid-template-columns: 1fr; }
+  .dialog-inner .detail-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 580px) {
+  .quick-metrics { gap: 7px; }
+  .quick-metrics .metric-card { padding: 12px 9px; }
+  .quick-metrics .metric-value { font-size: 24px; }
+  .quick-metrics .metric-icon { display: none; }
+  .filter-row .check-label { width: auto; }
+  .results-toolbar { flex-wrap: wrap; }
+  .notice-bottom .notice-number { flex-basis: 100%; margin: 0; }
+  .plan-row { grid-template-columns: 64px minmax(0, 1fr); gap: 10px; padding: 16px; }
+  .plan-month { padding: 8px; }
+  .plan-funding { grid-column: 2; display: flex; gap: 7px; align-items: baseline; flex-wrap: wrap; text-align: left; }
+  .dialog-inner { padding: 18px; }
+  .dialog-inner > h2 { font-size: 19px; }
+  .section-box { padding: 13px; }
+}
